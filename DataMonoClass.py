@@ -3,15 +3,15 @@ from scipy.interpolate import interp1d
 
 class DataMono:
 
-    def __init__(self, xdata, ydata, ratio=0.4):
+    def __init__(self, xdata, ydata, iniRatio=0.4):
         (self.xdata, self.ydata) = (xdata, ydata);
-        self.ratio = ratio
+        self.iniRatio = iniRatio
 
         self.initial()
 
     def initial(self):
         self.dataNum = self.xdata.size
-        self.Kini = self.getInitialTangent()
+        self.Kini = self.getInitialTangent(self.iniRatio)
         self.getArea()
         self.f = interp1d(self.xdata, self.ydata, bounds_error=False, fill_value=(self.ydata[0], self.ydata[-1]))
 
@@ -62,8 +62,8 @@ class DataMono:
         for i in range(self.dataNum-1):
             if self.ydata[i] >= threhold:
                 break
-        self.xdata = self.xdata[i:]
-        self.ydata = self.ydata[i:]
+        self.xdata = np.append(0.0, self.xdata[i:])
+        self.ydata = np.append(0.0, self.ydata[i:])
         self.initial()
 
 

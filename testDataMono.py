@@ -13,7 +13,7 @@ print(a.dataNum)
 a.revert()
 print(a.dataNum)
 pointY = a.findYield()
-a.cutBeforeY()
+a.cutBeforeY(0.9)
 
 plt.plot(a.xdata, a.ydata)
 plt.plot(pointY[0], pointY[1], 'ko')
