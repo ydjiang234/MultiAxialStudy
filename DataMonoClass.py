@@ -26,7 +26,7 @@ class DataMono:
         for i in range(self.dataNum-1):
             if self.ydata[i] >= threhold:
                 break
-        k = (self.ydata[i] - self.ydata[0]) / (self.xdata[i] - self.xdata[0])
+        k = self.ydata[i] / self.xdata[i]
         return k
 
     def cutMax(self):
@@ -41,7 +41,6 @@ class DataMono:
         self.xdata = self.xdatabackup
         self.ydata = self.ydatabackup
         self.initial()
-
 
     def findYield(self):
         self.cutMax()
