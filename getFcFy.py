@@ -11,8 +11,9 @@ def cutData(data, ratio=0.4):
             break
     return data[:,i:]
 
-cutRatio = 0.6
+cutRatio = 0.8
 iniRatio = 0.6
+targetDuctility = 3.5
 loadLevel = [0, 0.05, 0.1, 0.2, 0.3]
 
 conditions = np.loadtxt('_CFST_Conditions.txt')
@@ -30,8 +31,8 @@ for i in range(len(loadLevel)):
 
         fcData = DataMono(DD, fccs, iniRatio)
         fyData = DataMono(DD, fybs, iniRatio)
-        temp, fcc = fcData.findYield()
-        temp, fyb = fyData.findYield()
+        temp, fcc = fcData.findYield1()
+        temp, fyb = fyData.findYieldByDuctility(targetDuctility)
         fcc = min(fcc, fccs[-1])
         outputs = np.vstack((outputs, [D, t, L, fc, fy, fcc, fyb, fcc/fc, fyb/fy]))
     outputs = outputs[1:]

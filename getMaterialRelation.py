@@ -6,7 +6,7 @@ from CFST_Cir_Section_Analysis import CFST_Cir_Section_Analysis
 
 def cutData(data, ratio=0.4, num=20):
     DD, N, M, Nc, Mc, Ns, Ms = data
-    threhold = 0.4 * M.max()
+    threhold = ratio * M.max()
     for i in range(M.size):
         if M[i] >= threhold:
             break
@@ -17,8 +17,8 @@ def cutData(data, ratio=0.4, num=20):
     return f(DD_new)
 
 
-cutRatio = 0.6
-iniRatio = 0.6
+cutRatio = 0.8
+iniRatio = 0.4
 loadLevel = [0, 0.05, 0.1, 0.2, 0.3]
 
 conditions = np.loadtxt('_CFST_Conditions.txt')
@@ -31,7 +31,7 @@ for i in range(len(loadLevel)):
     outputs = []
     
     for j in range(len(dataAll)):
-        curData = cutData(dataAll[j].T, cutRatio)
+        curData = cutData(dataAll[j].T, cutRatio, num=100)
         DD, N, M, Nc, Mc, Ns, Ms = curData
 
         D, t, L, fc, fy = conditions[j]

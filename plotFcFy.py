@@ -19,16 +19,15 @@ conditions = np.loadtxt('_CFST_Conditions.txt')
 path = './DataC'
 
 
-for i in range(len(loadLevel)):
-    curLevel = loadLevel[i]
-    dataAll = np.load('{0}/level-{1:.0f}/MaterialRelation.npy'.format(path, curLevel*100))
-    fcfy = np.loadtxt('{0}/level-{1:.0f}/fc_fy.txt'.format(path, curLevel*100))
-    for j in range(len(dataAll)):
-        D, t, L, fc, fy = conditions[j]
-        curData = dataAll[j]
-        DD, fccs, fybs, hcs, hss = curData.T
-        D, t, L, fc, fy, fcc, fyb, ratioFc, ratioFy = fcfy[j]
-        fig, ax = plt.subplots(1,1)
-        ax.plot(DD, fybs)
-        ax.axhline(fyb)
-    plt.show()
+curLevel = loadLevel[0]
+dataAll = np.load('{0}/level-{1:.0f}/MaterialRelation.npy'.format(path, curLevel*100))
+fcfy = np.loadtxt('{0}/level-{1:.0f}/fc_fy.txt'.format(path, curLevel*100))
+for j in range(len(dataAll)):
+    D, t, L, fc, fy = conditions[j]
+    curData = dataAll[j]
+    DD, fccs, fybs, hcs, hss = curData.T
+    D, t, L, fc, fy, fcc, fyb, ratioFc, ratioFy = fcfy[j]
+    fig, ax = plt.subplots(1,1)
+    ax.plot(DD, fccs)
+    ax.axhline(fcc)
+plt.show()

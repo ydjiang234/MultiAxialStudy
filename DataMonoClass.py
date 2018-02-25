@@ -5,6 +5,7 @@ class DataMono:
 
     def __init__(self, xdata, ydata, iniRatio=0.4):
         (self.xdata, self.ydata) = (xdata, ydata);
+        (self.xdatabackup, self.ydatabackup) = (xdata, ydata);
         self.iniRatio = iniRatio
 
         self.initial()
@@ -31,8 +32,6 @@ class DataMono:
 
     def cutMax(self):
         maxId = self.ydata.argmax()
-        self.xdatabackup = self.xdata.copy()
-        self.ydatabackup = self.ydata.copy()
         self.xdata = self.xdata[:maxId+1]
         self.ydata = self.ydata[:maxId+1]
         self.initial()
@@ -42,7 +41,7 @@ class DataMono:
         self.ydata = self.ydatabackup
         self.initial()
 
-    def findYield(self):
+    def findYield1(self):
         self.cutMax()
         y = (2.0 * self.A - self.xdata[-1] * self.ydata[-1]) / (self.xdata[-1] - self.ydata[-1] / self.Kini)
         x = y / self.Kini
@@ -50,12 +49,31 @@ class DataMono:
         self.revert()
         return (x,y)
 
+    def findYield(self, ratio=0.1):
+        for i in range(1, self.xdata.size):
+            curK = (self.ydata[i] - self.ydata[i-1]) / (self.xdata[i] - self.xdata[i-1])
+            if curK <= ratio * self.Kini:
+                break
+        return (self.xdata[i], self.ydata[i])
+
     def findY(self, x):
         return self.f(x)
 
+    def tryFindFy(self, num):
+        xdata = self.xdata[:num]
+        ydata = self.ydata[:num]
+        temp = DataMono(xdata,ydata, self.iniRatio)
+        xxx, Fy = temp.findYield1()
+        return Fy, temp.xdata.max()/xxx
+
+    def findYieldByDuctility(self, TargetDuctility=2):
+        for i in range(self.dataNum):
+            Fy, ductility = self.tryFindFy(self.dataNum - i)
+            if ductility<= TargetDuctility:
+                break
+        return ductility, Fy
+
     def cutBeforeY(self, ratio=0.4):
-        self.xdatabackup = self.xdata.copy()
-        self.ydatabackup = self.ydata.copy()
         Ymax = self.ydata.max()
         threhold = ratio * Ymax
         for i in range(self.dataNum-1):
@@ -64,11 +82,3 @@ class DataMono:
         self.xdata = np.append(0.0, self.xdata[i:])
         self.ydata = np.append(0.0, self.ydata[i:])
         self.initial()
-
-
-    
-
-
-
-        
-        
