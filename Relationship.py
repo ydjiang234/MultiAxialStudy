@@ -6,6 +6,16 @@ from matplotlib.font_manager import FontProperties
 #from rdp import rdp
 from CFST_Cir_Base import CFST_Cir
 
+def remove_nan(data1, data2):
+    out = np.zeros((1,2))
+    for i in range(data1.size):
+        if not (np.isnan(data1[i]) or np.isnan(data2[i])):
+            out = np.vstack((out, [data1[i], data2[i]]))
+    out = out[1:].T
+    return out[0], out[1]
+
+
+
 
 font_label = FontProperties(family='Times New Roman',style='normal', size = 10)
 font = {'family' : 'Times New Roman',
@@ -46,8 +56,9 @@ for i in range(len(loadLevel)):
     fs = np.poly1d([ks ,bs])
     ax_s.plot([-1,10], fs([-1,10]), colors[i], label =r'$\mu_n$={0:.0f}\%'.format(curLevel*100), markersize=ms, linewidth=3)
 
+factorC, ratioC = remove_nan(factorC, ratioC)
 kc, bc = np.polyfit(factorC.ravel(),ratioC.ravel(),1)
-kc, bc = -0.2875, 2.307
+#kc, bc = -0.2875, 2.307
 fc = np.poly1d([kc ,bc])
 ax_c.plot([-1,10], fc([-1,10]), 'k-', label ='Regression Line', markersize=ms, linewidth=5)
 print(kc,bc)
