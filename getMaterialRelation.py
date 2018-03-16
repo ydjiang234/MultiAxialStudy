@@ -18,7 +18,7 @@ def cutData(data, ratio=0.4, num=20):
 
 
 cutRatio = 0.8
-iniRatio = 0.4
+iniRatio = 0.6
 loadLevel = [0, 0.05, 0.1, 0.2, 0.3]
 
 conditions = np.loadtxt('_CFST_Conditions.txt')

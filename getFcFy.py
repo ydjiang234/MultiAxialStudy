@@ -11,7 +11,7 @@ def cutData(data, ratio=0.4):
             break
     return data[:,i:]
 
-cutRatio = 0.8
+cutRatio = 0.1
 iniRatio = 0.6
 targetDuctility = 3.5
 loadLevel = [0, 0.05, 0.1, 0.2, 0.3]
