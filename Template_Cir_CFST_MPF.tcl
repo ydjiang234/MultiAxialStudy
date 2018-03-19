@@ -2,26 +2,26 @@ source D:/Git/OPS/Shared_Proc/Analysis.tcl
 
 #Input data
 
-set D 219.0;
-set t 4.7;
-set L 1350.0;
-set N_axial 359.0;
-set fc 52.7901760792;
+set D {{D}};
+set t {{t}};
+set L {{L}};
+set N_axial {{N_axial}};
+set fc {{fc}};
 set Ec [expr 4700.0 * pow($fc, 0.5)];
 set ec [expr $fc / $Ec * 2.0];
-set bc 0.04;
-set dc 0.01;
+set bc {{bc}};
+set dc {{dc}};
 set rc [expr 1. - $dc];
-set fyt 417.845974314;
-set fyn 417.845974314;
-set Es 200000.0;
-set bt 0.008;
-set bn 0.008;
-set tol 0.001;
-set iter_max 100;
-set d_incr 0.1;
-set DispList [list 0.0 135.0];
-set outname C219-5-Ru5-N.out;
+set fyt {{fyt}};
+set fyn {{fyn}};
+set Es {{Es}};
+set bt {{bt}};
+set bn {{bn}};
+set tol {{tol}};
+set iter_max {{iter_max}};
+set d_incr {{d_incr}};
+set DispList [list 0.0 {{drift_ratios}}];
+set outname {{fileID}};
 set D_div 36;
 set R_div 10;
 set t_div 2;
